@@ -57,7 +57,9 @@ class WorkshopsView extends React.Component {
             item.title.toLowerCase().includes(searchQuery.toLowerCase()) 
             || item.description.toLowerCase().includes(searchQuery.toLowerCase())
             || item.type.toLowerCase().includes(searchQuery.toLowerCase())
-            || item.location.toLowerCase().includes(searchQuery.toLowerCase()));
+            || item.location.toLowerCase().includes(searchQuery.toLowerCase())
+            || item.primaryInstructor.fullName.toLowerCase().includes(searchQuery.toLowerCase())
+            || item.coTeachers.toLowerCase().includes(searchQuery.toLowerCase()));
     }
 
     _renderItem = ({item}) => {
