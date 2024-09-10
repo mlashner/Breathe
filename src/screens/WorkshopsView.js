@@ -2,6 +2,7 @@ import React from 'react';
 import {StyleSheet, TextInput, View, FlatList, ActivityIndicator} from 'react-native';
 import HorizontalCalendar from 'breathe/src/components/HorizontalCalendar';
 import ScheduleCard from '../components/ScheduleCard';
+import { RFValue } from "react-native-responsive-fontsize";
 
 class WorkshopsView extends React.Component {
     static navigationOptions = {
@@ -132,17 +133,15 @@ const styles = StyleSheet.create({
         height: 40,
         margin: 30,
         marginBottom: 10,
-        borderWidth: 1,
         padding: 10,
+        borderWidth: 1,
         borderRadius: 55,
         backgroundColor: 'rgb(220, 230, 232)',
+        fontSize: RFValue(16),
+        color: '#5d8da0',
+        fontFamily: 'helvetica77',
         justifyContent: 'center',
         alignItems: 'center',
-        shadowColor: 'rgba(0,0,0, .4)', // IOS
-        shadowOffset: { height: 1, width: 1 }, // IOS
-        shadowOpacity: 1, // IOS
-        shadowRadius: 1, //IOS
-        elevation: 2, // Android
     },
 });
 
