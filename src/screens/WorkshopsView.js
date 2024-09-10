@@ -1,5 +1,5 @@
 import React from 'react';
-import {StyleSheet, View, FlatList, ActivityIndicator} from 'react-native';
+import {StyleSheet, TextInput, View, FlatList, ActivityIndicator} from 'react-native';
 import HorizontalCalendar from 'breathe/src/components/HorizontalCalendar';
 import ScheduleCard from '../components/ScheduleCard';
 
@@ -10,6 +10,9 @@ class WorkshopsView extends React.Component {
 
     constructor(props) {
         super(props);
+        this.state = {
+            searchQuery: '',
+        }
         this.add = this.add.bind(this);
         this.delete = this.delete.bind(this);
     }
@@ -25,12 +28,16 @@ class WorkshopsView extends React.Component {
         this.setState({
             dateSelected: date,
         });
-        if (this.state.data[this.state.dateSelected] != null
-            && this.state.data[this.state.dateSelected].length > 0) {
+        if (this.getFilteredData() != null
+            && this.getFilteredData().length > 0) {
             this.flatlist.scrollToIndex({
                 index: 0
             });
         }
+    }
+
+    handleSearch = (text) => {
+        this.setState({ searchQuery: text });
     }
 
     isFavorite() {}
@@ -38,6 +45,15 @@ class WorkshopsView extends React.Component {
     async add(item) {}
 
     async delete(item) {}
+
+    getFilteredData() {
+        const { data, dateSelected, searchQuery } = this.state;
+        const selectedDateData = data[dateSelected] || [];
+        if (!searchQuery) {
+            return selectedDateData;
+        }
+        return selectedDateData.filter(item => item.title.toLowerCase().includes(searchQuery.toLowerCase()));
+    }
 
     _renderItem = ({item}) => {
         return (
@@ -63,11 +79,17 @@ class WorkshopsView extends React.Component {
             return(
             <View style={styles.container}>
                 <HorizontalCalendar dateSelected={this.state.dateSelected} changeDate={this.changeDate}/>
+                <TextInput
+                    style={styles.searchBar}
+                    placeholder="Search..."
+                    value={this.state.searchQuery}
+                    onChangeText={this.handleSearch}
+                />
                     <FlatList 
                         ref={(ref) => {this.flatlist = ref;}}
                         contentInset={{bottom: 60}}
                         contentContainerStyle={styles.flatList}
-                        data={this.state.data[this.state.dateSelected] || []}
+                        data={this.getFilteredData()}
                         keyExtractor={(item, index) => index.toString()}
                         extraData={this.state}
                         renderItem={(item) => this._renderItem(item, this.props)}
@@ -100,6 +122,13 @@ const styles = StyleSheet.create({
     },
     flastList: {
         flex: 1
+    },
+    searchBar: {
+        width: 300,
+        height: 40,
+        margin: 12,
+        borderWidth: 1,
+        padding: 10,
     },
 });
 
