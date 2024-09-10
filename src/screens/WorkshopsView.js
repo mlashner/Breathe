@@ -52,7 +52,11 @@ class WorkshopsView extends React.Component {
         if (!searchQuery) {
             return selectedDateData;
         }
-        return selectedDateData.filter(item => item.title.toLowerCase().includes(searchQuery.toLowerCase()));
+        return selectedDateData.filter(item => 
+            item.title.toLowerCase().includes(searchQuery.toLowerCase()) 
+            || item.description.toLowerCase().includes(searchQuery.toLowerCase())
+            || item.type.toLowerCase().includes(searchQuery.toLowerCase())
+            || item.location.toLowerCase().includes(searchQuery.toLowerCase()));
     }
 
     _renderItem = ({item}) => {
@@ -126,9 +130,19 @@ const styles = StyleSheet.create({
     searchBar: {
         width: 300,
         height: 40,
-        margin: 12,
+        margin: 30,
+        marginBottom: 10,
         borderWidth: 1,
         padding: 10,
+        borderRadius: 55,
+        backgroundColor: 'rgb(220, 230, 232)',
+        justifyContent: 'center',
+        alignItems: 'center',
+        shadowColor: 'rgba(0,0,0, .4)', // IOS
+        shadowOffset: { height: 1, width: 1 }, // IOS
+        shadowOpacity: 1, // IOS
+        shadowRadius: 1, //IOS
+        elevation: 2, // Android
     },
 });
 
