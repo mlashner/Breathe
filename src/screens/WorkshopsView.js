@@ -1,8 +1,8 @@
 import React from 'react';
-import {StyleSheet, TextInput, View, FlatList, ActivityIndicator, Text, TouchableOpacity} from 'react-native';
+import {StyleSheet, View, FlatList, ActivityIndicator} from 'react-native';
 import HorizontalCalendar from 'breathe/src/components/HorizontalCalendar';
 import ScheduleCard from '../components/ScheduleCard';
-import { RFValue } from "react-native-responsive-fontsize";
+import SearchBar from '../components/SearchBar';
 
 class WorkshopsView extends React.Component {
     static navigationOptions = {
@@ -16,6 +16,7 @@ class WorkshopsView extends React.Component {
         }
         this.add = this.add.bind(this);
         this.delete = this.delete.bind(this);
+        this.clearSearch = this.clearSearch.bind(this);
     }
     
     async componentDidMount () {
@@ -89,17 +90,11 @@ class WorkshopsView extends React.Component {
         else {
             return(
             <View style={styles.container}>
-                <View style={styles.searchBarContainer}>
-                    <TextInput
-                        style={styles.searchBar}
-                        placeholder="Search..."
-                        value={this.state.searchQuery}
-                        onChangeText={this.handleSearch}
-                    />
-                    <TouchableOpacity onPress={() => this.clearSearch()}>
-                        <Text style={styles.clearButton}>x</Text>
-                    </TouchableOpacity>
-                </View>
+                <SearchBar 
+                    searchQuery={this.state.searchQuery} 
+                    handleSearch={this.handleSearch} 
+                    clearSearch={this.clearSearch}
+                />
                 <HorizontalCalendar dateSelected={this.state.dateSelected} changeDate={this.changeDate}/>
                     <FlatList 
                         ref={(ref) => {this.flatlist = ref;}}
@@ -139,31 +134,6 @@ const styles = StyleSheet.create({
     flastList: {
         flex: 1
     },
-    searchBar: {
-        width: "90%",
-        height: 32,
-        marginTop: 8,
-        padding: 0,
-        backgroundColor: 'rgb(220, 230, 232)',
-        fontSize: RFValue(16),
-        color: '#5d8da0',
-        fontFamily: 'helvetica77',
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    searchBarContainer: {
-        width: '100%',
-        flexDirection: 'row',
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    clearButton: {
-        // position: 'absolute',
-        // right: 0,
-        fontSize: RFValue(16),
-        color: '#5d8da0',
-        fontFamily: 'helvetica77',
-    }
 });
 
 export default WorkshopsView;
