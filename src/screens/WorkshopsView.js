@@ -1,5 +1,5 @@
 import React from 'react';
-import {StyleSheet, TextInput, View, FlatList, ActivityIndicator} from 'react-native';
+import {StyleSheet, TextInput, View, FlatList, ActivityIndicator, Text, TouchableOpacity} from 'react-native';
 import HorizontalCalendar from 'breathe/src/components/HorizontalCalendar';
 import ScheduleCard from '../components/ScheduleCard';
 import { RFValue } from "react-native-responsive-fontsize";
@@ -39,6 +39,10 @@ class WorkshopsView extends React.Component {
 
     handleSearch = (text) => {
         this.setState({ searchQuery: text });
+    }
+
+    clearSearch() {
+        this.setState({ searchQuery: '' });
     }
 
     isFavorite() {}
@@ -85,13 +89,18 @@ class WorkshopsView extends React.Component {
         else {
             return(
             <View style={styles.container}>
+                <View style={styles.searchBarContainer}>
+                    <TextInput
+                        style={styles.searchBar}
+                        placeholder="Search..."
+                        value={this.state.searchQuery}
+                        onChangeText={this.handleSearch}
+                    />
+                    <TouchableOpacity onPress={() => this.clearSearch()}>
+                        <Text style={styles.clearButton}>x</Text>
+                    </TouchableOpacity>
+                </View>
                 <HorizontalCalendar dateSelected={this.state.dateSelected} changeDate={this.changeDate}/>
-                <TextInput
-                    style={styles.searchBar}
-                    placeholder="Search..."
-                    value={this.state.searchQuery}
-                    onChangeText={this.handleSearch}
-                />
                     <FlatList 
                         ref={(ref) => {this.flatlist = ref;}}
                         contentInset={{bottom: 60}}
@@ -142,6 +151,19 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
     },
+    searchBarContainer: {
+        width: '100%',
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    clearButton: {
+        // position: 'absolute',
+        // right: 0,
+        fontSize: RFValue(16),
+        color: '#5d8da0',
+        fontFamily: 'helvetica77',
+    }
 });
 
 export default WorkshopsView;
