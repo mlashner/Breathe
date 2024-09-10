@@ -131,13 +131,10 @@ const styles = StyleSheet.create({
         flex: 1
     },
     searchBar: {
-        width: 300,
-        height: 40,
-        margin: 30,
-        marginBottom: 10,
-        padding: 10,
-        borderWidth: 1,
-        borderRadius: 55,
+        width: "90%",
+        height: 32,
+        marginTop: 8,
+        padding: 0,
         backgroundColor: 'rgb(220, 230, 232)',
         fontSize: RFValue(16),
         color: '#5d8da0',
