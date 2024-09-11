@@ -20,16 +20,20 @@ export default class TeachersScreen extends React.Component {
       }
 
     handleSearch = (text) => {
-        this.setState({searchQuery: text})
+        this.setState({ searchQuery: text })
+
     }
 
     clearSearch() {
-        this.setState({searchQuery: ''})
+        this.setState({ searchQuery: '' })
+
     }
 
     getFilteredData() {
-        const {data, searchQuery} = this.state;
-        const sortedData = data.sort((prev, next)=>prev.fullName.localeCompare(next.fullName))
+        const { data, searchQuery } = this.state;
+
+        const sortedData = data.sort((prev, next) => prev.fullName.localeCompare(next.fullName))
+
         if (!searchQuery) {
             return sortedData;
         }

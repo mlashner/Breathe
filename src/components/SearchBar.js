@@ -5,8 +5,9 @@ import { RFValue } from "react-native-responsive-fontsize";
 export default class SearchBar extends React.Component {
     constructor(props) {
         super(props);
-      }
-    render(){ 
+    }
+    
+    render() { 
         return (
             <View style={styles.searchBarContainer}>
                 <TextInput
