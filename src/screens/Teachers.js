@@ -1,6 +1,7 @@
 import React from 'react';
 import {StyleSheet, View, FlatList } from 'react-native';
 import TeacherCard from '../components/TeacherCard';
+import SearchBar from '../components/SearchBar';
 
 export default class TeachersScreen extends React.Component {
     static navigationOptions = {
@@ -12,9 +13,33 @@ export default class TeachersScreen extends React.Component {
         this.state = {
             isLoading: true,
             data: props.route.params.teachers ?? [],
-            user: props.route.params.user ?? {}
+            user: props.route.params.user ?? {},
+            searchQuery: '',
         }
+        this.clearSearch = this.clearSearch.bind(this);
       }
+
+    handleSearch = (text) => {
+        this.setState({ searchQuery: text })
+
+    }
+
+    clearSearch() {
+        this.setState({ searchQuery: '' })
+
+    }
+
+    getFilteredData() {
+        const { data, searchQuery } = this.state;
+
+        const sortedData = data.sort((prev, next) => prev.fullName.localeCompare(next.fullName))
+
+        if (!searchQuery) {
+            return sortedData;
+        }
+
+        return sortedData.filter(item => item.fullName.toLowerCase().includes(searchQuery.toLowerCase()))
+    }
 
     _renderItem = ({item}) => {
         return (
@@ -27,11 +52,16 @@ export default class TeachersScreen extends React.Component {
     render() {
         return (
             <View style={styles.container}>
+                <SearchBar 
+                    searchQuery={this.state.searchQuery} 
+                    handleSearch={this.handleSearch} 
+                    clearSearch={this.clearSearch}
+                />
                 <FlatList 
                     style={styles.flastList}
                     contentInset={{bottom: 60}}
                     contentContainerStyle={styles.flatList}
-                    data={this.state.data.sort((prev, next)=>prev.fullName.localeCompare(next.fullName))}
+                    data={this.getFilteredData()}
                     keyExtractor={(item, index) => index.toString()}
                     extraData={this.state}
                     renderItem={(item) => this._renderItem(item)}
